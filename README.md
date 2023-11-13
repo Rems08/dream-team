@@ -15,3 +15,4 @@ avec matplotlib,
 Écrire une classe Lapin une classe Carotte et une classe jardin,
 Utiliser les listes. les classes. et les fonctions random de math.
 Lien illisible
+https://github.com/michaellaunay/notespubliques
