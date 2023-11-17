@@ -7,6 +7,9 @@ class Garden:
         self.rabbits = [Rabbit('male'), Rabbit('female')]
         self.carrots = [Carrot() for _ in range(200)]
         self.current_date = datetime(2023, 1, 1)  # Starting date
+        self.rabbit_count = []
+        self.carrot_count = []
+        self.reproduction_count = []
 
     def harvest_carrot(self):
         if self.carrots:
@@ -23,7 +26,8 @@ class Garden:
             rabbit.eat(self)
 
         # Handle reproduction
-        self.handle_reproduction()
+        reproduction_events = self.handle_reproduction()
+        self.reproduction_count.append(reproduction_events)
 
         # Remove dead rabbits
         self.rabbits = [rabbit for rabbit in self.rabbits if not rabbit.is_dead()]
@@ -31,8 +35,13 @@ class Garden:
         # Handle carrot growth
         self.handle_carrot_growth()
 
+        # Collect data
+        self.rabbit_count.append(len(self.rabbits))
+        self.carrot_count.append(len(self.carrots))
+
     def handle_reproduction(self):
         potential_mothers = [rabbit for rabbit in self.rabbits if rabbit.can_reproduce(self.current_date)]
+        reproduction_count = 0
         for mother in potential_mothers:
             father = random.choice(
                 [rabbit for rabbit in self.rabbits if rabbit.gender == 'male' and rabbit != mother.last_mate])
@@ -41,6 +50,8 @@ class Garden:
                 for _ in range(litter_size):
                     self.rabbits.append(Rabbit(gender=random.choice(['male', 'female'])))
                 mother.last_mate = father
+                reproduction_count += 1
+        return reproduction_count
 
     def handle_carrot_growth(self):
         if self.current_date.month == 3:  # Sowing in March

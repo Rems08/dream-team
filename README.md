@@ -1,3 +1,12 @@
+# Prérequis
+- python 3.10
+- pip
+
+# Initialisation
+Installer les libraires avec:
+```bash
+pip install -r requirements.txt
+```
 # dream-team
 # Consignes du projet
 Simuler une population de lapins et de carottes dans un jardin.
