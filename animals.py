@@ -1,3 +1,5 @@
+import logging
+from datetime import datetime
 class Rabbit:
     def __init__(self, gender, age=0):
         self.gender = gender
@@ -17,7 +19,6 @@ class Rabbit:
     def is_dead(self):
         max_age = 4 if not self.has_eaten else 6
         return self.age > max_age or (not self.has_eaten and self.age > 2 / 52)
-
 
 class Carrot:
     def __init__(self):
