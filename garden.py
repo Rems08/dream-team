@@ -34,7 +34,8 @@ class Garden:
     def handle_reproduction(self):
         potential_mothers = [rabbit for rabbit in self.rabbits if rabbit.can_reproduce(self.current_date)]
         for mother in potential_mothers:
-            father = random.choice([rabbit for rabbit in self.rabbits if rabbit.gender == 'male' and rabbit != mother.last_mate])
+            father = random.choice(
+                [rabbit for rabbit in self.rabbits if rabbit.gender == 'male' and rabbit != mother.last_mate])
             if father:
                 litter_size = random.randint(1, 6)
                 for _ in range(litter_size):
