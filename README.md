@@ -14,5 +14,5 @@ On va simuler l'évolution hebdomadatre sur 6 ans. puis tracer les populations
 avec matplotlib,
 Écrire une classe Lapin une classe Carotte et une classe jardin,
 Utiliser les listes. les classes. et les fonctions random de math.
-Lien illisible
+
 https://github.com/michaellaunay/notespubliques
