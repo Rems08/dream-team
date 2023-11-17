@@ -18,7 +18,10 @@ class Rabbit:
 
     def is_dead(self):
         max_age = 4 if not self.has_eaten else 6
-        return self.age > max_age or (not self.has_eaten and self.age > 2 / 52)
+        is_dead = self.age > max_age or (not self.has_eaten and self.age > 2 / 52)
+        if is_dead:
+            logging.info(f"A rabbit died on {datetime.now().strftime('%Y-%m-%d')}.")
+        return is_dead
 
 class Carrot:
     def __init__(self):
