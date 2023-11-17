@@ -1,6 +1,10 @@
+import logging
 from animals import Rabbit, Carrot
 import random
 from datetime import datetime, timedelta
+
+# Set up basic logging configuration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Garden:
     def __init__(self):
@@ -19,6 +23,7 @@ class Garden:
 
     def weekly_update(self):
         self.current_date += timedelta(weeks=1)
+        logging.info(f"Weekly update for {self.current_date.strftime('%Y-%m-%d')}")
 
         # Aging and eating
         for rabbit in self.rabbits:
@@ -51,13 +56,17 @@ class Garden:
                     self.rabbits.append(Rabbit(gender=random.choice(['male', 'female'])))
                 mother.last_mate = father
                 reproduction_count += 1
+        if reproduction_count > 0:
+            logging.info(f"{reproduction_count} reproduction events occurred.")
         return reproduction_count
 
     def handle_carrot_growth(self):
         if self.current_date.month == 3:  # Sowing in March
             self.carrots = [Carrot() for _ in range(200)]
+            logging.info("Carrots sown.")
         elif self.current_date.month == 6:  # Harvest in June
             self.carrots = []
+            logging.info("Carrots harvested.")
 
     def __str__(self):
         return f"Garden on {self.current_date.strftime('%Y-%m-%d')} with {len(self.rabbits)} rabbits and {len(self.carrots)} carrots"
