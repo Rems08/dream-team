@@ -1,4 +1,8 @@
 class Rabbit:
+    __MAX_UNDER_FEED_AGE = 4
+    __MAX_HEALTH_AGE = 6
+    __WEEKS_PER_YEAR = 52
+
     def __init__(self, gender, age=0):
         self.gender = gender
         self.age = age
@@ -6,7 +10,7 @@ class Rabbit:
         self.last_mate = None  # Track the last mate to avoid immediate re-mating
 
     def age_one_week(self):
-        self.age += 1 / 52  # Age in years
+        self.age += 1 / self.__WEEKS_PER_YEAR  # Age in years
 
     def eat(self, garden):
         self.has_eaten = garden.harvest_carrot()
@@ -15,8 +19,8 @@ class Rabbit:
         return self.age >= 1 and self.gender == 'female' and current_date.month in [4, 7]
 
     def is_dead(self):
-        max_age = 4 if not self.has_eaten else 6
-        return self.age > max_age or (not self.has_eaten and self.age > 2 / 52)
+        max_age = self.__MAX_UNDER_FEED_AGE if not self.has_eaten else self.__MAX_HEALTH_AGE
+        return self.age > max_age or (not self.has_eaten and self.age > 2 / self.__WEEKS_PER_YEAR)
 
 
 class Carrot:
