@@ -1,3 +1,7 @@
+import logging
+from datetime import datetime
+
+
 class Rabbit:
     __MAX_UNDER_FEED_AGE = 4
     __MAX_HEALTH_AGE = 6
@@ -20,7 +24,10 @@ class Rabbit:
 
     def is_dead(self):
         max_age = self.__MAX_UNDER_FEED_AGE if not self.has_eaten else self.__MAX_HEALTH_AGE
-        return self.age > max_age or (not self.has_eaten and self.age > 2 / self.__WEEKS_PER_YEAR)
+        is_dead = self.age > max_age or (not self.has_eaten and self.age > 2 / self.__WEEKS_PER_YEAR)
+        if is_dead:
+            logging.info(f"A rabbit died on {datetime.now().strftime('%Y-%m-%d')}.")
+        return is_dead
 
 
 class Carrot:
