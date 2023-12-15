@@ -1,72 +1,94 @@
-import logging
-from animals import Rabbit, Carrot
 import random
-from datetime import datetime, timedelta
 
-# Set up basic logging configuration
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from gender import Gender
+from rabbit import Rabbit
 
-class Garden:
-    def __init__(self):
-        self.rabbits = [Rabbit('male'), Rabbit('female')]
-        self.carrots = [Carrot() for _ in range(200)]
-        self.current_date = datetime(2023, 1, 1)  # Starting date
-        self.rabbit_count = []
-        self.carrot_count = []
-        self.reproduction_count = []
 
-    def harvest_carrot(self):
-        if self.carrots:
-            self.carrots.pop()
+class Carrot:
+    """A class representing a quantity of carrots in the garden."""
+
+    def __init__(self, count):
+        self.count = count
+
+    def consume(self):
+        """Consumes a carrot, if available."""
+        if self.count > 0:
+            self.count -= 1
             return True
         return False
 
+    def harvest(self, additional_count):
+        """Adds carrots to the garden."""
+        self.count += additional_count
+
+
+class Garden:
+    """A class representing a garden containing rabbits and carrots."""
+
+    WEEKS_PER_YEAR = 52
+    PLANTING_WEEK = 9
+    ADDITIONAL_HARVEST_WEEK = 22
+    REPRODUCTION_WEEKS = list(range(14, 18)) + list(range(27, 31))
+
+    def __init__(self):
+        self.rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
+        self.carrots = Carrot(200)
+        self.current_week = 9
+        self.last_planting_year = 0
+
+    def has_carrots(self):
+        """Checks if there are any carrots in the garden."""
+        return self.carrots.count > 0
+
+    def consume_carrot(self):
+        """Consumes a carrot from the garden."""
+        return self.carrots.consume()
+
     def weekly_update(self):
-        self.current_date += timedelta(weeks=1)
-        logging.info(f"Weekly update for {self.current_date.strftime('%Y-%m-%d')}")
+        """Updates the garden status every week."""
+        self.current_week += 1
+        self._handle_planting_and_harvesting()
+        self._update_rabbits()
+        self._handle_reproduction()
 
-        # Aging and eating
-        for rabbit in self.rabbits:
-            rabbit.age_one_week()
+    def _handle_planting_and_harvesting(self):
+        """Handles the planting and harvesting of carrots."""
+        current_year = self.current_week // self.WEEKS_PER_YEAR
+        week_of_year = self.current_week % self.WEEKS_PER_YEAR
+
+        if week_of_year == self.PLANTING_WEEK and current_year != self.last_planting_year:
+            self.carrots.harvest(200)
+            self.last_planting_year = current_year
+
+        if week_of_year == self.ADDITIONAL_HARVEST_WEEK:
+            self.carrots.harvest(200)
+
+    def _update_rabbits(self):
+        """Updates the status of each rabbit in the garden."""
+        rabbit_population = len(self.rabbits)
+        epidemic_risk = 0.05
+
+        for rabbit in list(self.rabbits):
+            rabbit.age_by_a_week()
             rabbit.eat(self)
+            if rabbit.is_dead(epidemic_risk, rabbit_population):
+                self.rabbits.remove(rabbit)
 
-        # Handle reproduction
-        reproduction_events = self.handle_reproduction()
-        self.reproduction_count.append(reproduction_events)
+    def _handle_reproduction(self):
+        """Handles the reproduction of rabbits in the garden."""
+        week_of_year = self.current_week % self.WEEKS_PER_YEAR
+        if week_of_year in self.REPRODUCTION_WEEKS:
+            self._reproduce_rabbits()
 
-        # Remove dead rabbits
-        self.rabbits = [rabbit for rabbit in self.rabbits if not rabbit.is_dead()]
-
-        # Handle carrot growth
-        self.handle_carrot_growth()
-
-        # Collect data
-        self.rabbit_count.append(len(self.rabbits))
-        self.carrot_count.append(len(self.carrots))
-
-    def handle_reproduction(self):
-        potential_mothers = [rabbit for rabbit in self.rabbits if rabbit.can_reproduce(self.current_date)]
-        reproduction_count = 0
+    def _reproduce_rabbits(self):
+        """Manages the reproduction process of rabbits."""
+        potential_mothers = [r for r in self.rabbits if r.can_reproduce(self.current_week)]
         for mother in potential_mothers:
-            father = random.choice(
-                [rabbit for rabbit in self.rabbits if rabbit.gender == 'male' and rabbit != mother.last_mate])
-            if father:
+            fathers = [r for r in self.rabbits if r.gender == Gender.MALE and r.can_reproduce(self.current_week)]
+            if fathers:
+                father = random.choice(fathers)
                 litter_size = random.randint(1, 6)
                 for _ in range(litter_size):
-                    self.rabbits.append(Rabbit(gender=random.choice(['male', 'female'])))
-                mother.last_mate = father
-                reproduction_count += 1
-        if reproduction_count > 0:
-            logging.info(f"{reproduction_count} reproduction events occurred.")
-        return reproduction_count
-
-    def handle_carrot_growth(self):
-        if self.current_date.month == 3:  # Sowing in March
-            self.carrots = [Carrot() for _ in range(200)]
-            logging.info("Carrots sown.")
-        elif self.current_date.month == 6:  # Harvest in June
-            self.carrots = []
-            logging.info("Carrots harvested.")
-
-    def __str__(self):
-        return f"Garden on {self.current_date.strftime('%Y-%m-%d')} with {len(self.rabbits)} rabbits and {len(self.carrots)} carrots"
+                    self.rabbits.append(Rabbit(gender=random.choice([Gender.MALE, Gender.FEMALE])))
+                mother.last_reproduction_week = self.current_week // self.WEEKS_PER_YEAR
+                father.last_reproduction_week = self.current_week // self.WEEKS_PER_YEAR
