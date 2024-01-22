@@ -1,6 +1,7 @@
 import random
 from animals import Rabbit, Gender, Fox, Hunter
 
+
 # Carrot Class
 class Carrot:
     def __init__(self, count):
@@ -21,6 +22,7 @@ class Carrot:
             pos_x = random.randint(margin_x, window_size[0] - margin_x)
             pos_y = random.randint(margin_y, window_size[1] - margin_y)
             self.positions.append((pos_x, pos_y))
+
 
 # Garden Class
 class Garden:
@@ -78,7 +80,8 @@ class Garden:
         if week_of_year in range(14, 18) or week_of_year in range(27, 31):
             potential_mothers = [rabbit for rabbit in self.rabbits if rabbit.can_reproduce(self.current_week)]
             for mother in potential_mothers:
-                fathers = [rabbit for rabbit in self.rabbits if rabbit.gender == Gender.MALE and rabbit.can_reproduce(self.current_week)]
+                fathers = [rabbit for rabbit in self.rabbits if
+                           rabbit.gender == Gender.MALE and rabbit.can_reproduce(self.current_week)]
                 if fathers:
                     father = random.choice(fathers)
                     litter_size = random.randint(1, 6)

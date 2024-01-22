@@ -1,7 +1,64 @@
 # settings_menu.py
 import pygame
 
-def show_settings_menu(screen, logo_image, menu_background_image, prev_button_image):
+
+class SettingsMenu:
+    def __init__(self, rabbit_count, carrot_count, is_hunter_enabled, is_fox_enabled):
+        self._rabbit_count = rabbit_count
+        self._carrot_count = carrot_count
+        self._is_hunter_enabled = is_hunter_enabled
+        self._is_fox_enabled = is_fox_enabled
+
+    @property
+    def rabbit_count(self):
+        """Getter pour rabbit_count."""
+        return self._rabbit_count
+
+    @rabbit_count.setter
+    def rabbit_count(self, value):
+        """Setter pour rabbit_count avec validation si nécessaire."""
+        if value < 0:
+            raise ValueError("Le nombre de lapins ne peut pas être négatif.")
+        self._rabbit_count = value
+
+    @property
+    def carrot_count(self):
+        """Getter pour carrot_count."""
+        return self._carrot_count
+
+    @carrot_count.setter
+    def carrot_count(self, value):
+        """Setter pour carrot_count avec validation si nécessaire."""
+        if value < 0:
+            raise ValueError("Le nombre de carottes ne peut pas être négatif.")
+        self._carrot_count = value
+
+    @property
+    def is_hunter_enabled(self):
+        """Getter pour is_hunter_enabled."""
+        return self._is_hunter_enabled
+
+    @is_hunter_enabled.setter
+    def is_hunter_enabled(self, value):
+        """Setter pour is_hunter_enabled."""
+        if not isinstance(value, bool):
+            raise ValueError("is_hunter_enabled doit être un booléen.")
+        self._is_hunter_enabled = value
+
+    @property
+    def is_fox_enabled(self):
+        """Getter pour is_fox_enabled."""
+        return self._is_fox_enabled
+
+    @is_fox_enabled.setter
+    def is_fox_enabled(self, value):
+        """Setter pour is_fox_enabled."""
+        if not isinstance(value, bool):
+            raise ValueError("is_fox_enabled doit être un booléen.")
+        self._is_fox_enabled = value
+
+
+def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_background_image, prev_button_image):
     pygame.init()
     font = pygame.font.SysFont('comicsansms', 30)
 
@@ -9,13 +66,8 @@ def show_settings_menu(screen, logo_image, menu_background_image, prev_button_im
     on_image = pygame.transform.scale(pygame.image.load('img/on.png'), (90, 40))
     off_image = pygame.transform.scale(pygame.image.load('img/off.png'), (90, 40))
 
-    # États initiaux pour Hunter et Fox
-    hunter_enabled = False
-    fox_enabled = False
-
-    settings_menu = True
-
-    while settings_menu:
+    is_menu_opened = True
+    while is_menu_opened:
         clicked = False
         mouse_pos = None
 
@@ -54,15 +106,17 @@ def show_settings_menu(screen, logo_image, menu_background_image, prev_button_im
             text_rect = text_surface.get_rect(left=screen.get_width() // 2, top=y_offset_right)
             screen.blit(text_surface, text_rect)
 
-            image = on_image if (text == "Hunter:" and hunter_enabled) or (text == "Fox:" and fox_enabled) else off_image
+            image = on_image if (text == "Hunter:" and hunter_enabled) or (
+                        text == "Fox:" and fox_enabled) else off_image
             image_rect = image.get_rect(left=screen.get_width() // 2 + 150, top=y_offset_right)
             screen.blit(image, image_rect)
 
             if clicked and image_rect.collidepoint(mouse_pos):
                 if text == "Hunter:":
+                    settings_menu.is_hunter_enabled = not settings_menu.is_hunter_enabled
                     hunter_enabled = not hunter_enabled
                 else:  # "Fox:"
-                    fox_enabled = not fox_enabled
+                    settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
 
             y_offset_right += 60
 
@@ -70,7 +124,4 @@ def show_settings_menu(screen, logo_image, menu_background_image, prev_button_im
 
         # Vérifier si le bouton retour a été cliqué
         if clicked and prev_button_rect.collidepoint(mouse_pos):
-            settings_menu = False
-    
-    # Retourner les paramètres ajustés
-    return hunter_enabled, fox_enabled
+            is_menu_opened = False
