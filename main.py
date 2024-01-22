@@ -1,11 +1,13 @@
-import pygame
-import matplotlib.pyplot as plt
-from garden import Garden
-from animals import Gender
-from settings_menu import show_settings_menu
-from settings_menu import SettingsMenu
 import random
 import time
+
+import matplotlib.pyplot as plt
+import pygame
+
+from animals import Gender
+from garden import Garden
+from settings_menu import SettingsMenu
+from settings_menu import show_settings_menu
 
 # Pygame initialization and other configurations
 pygame.init()
@@ -175,10 +177,6 @@ margin = 0.07
 margin_x = int(window_size[0] * margin)
 margin_y = int(window_size[1] * margin)
 
-# Assuming Garden, Gender, and other classes are defined in other modules
-from garden import Garden
-from animals import Gender
-
 garden = Garden(window_size, margin_x, margin_y)
 
 weeks = []
@@ -221,7 +219,7 @@ while running:
     months = total_months + (garden.current_week // 4)  # Assuming 4 weeks per month
     month_text = font.render(f'Mois: {months}', True, (255, 255, 255))
     month_text_position = (
-    window_size[0] - month_text.get_width() - 10, 10 + rabbit_text.get_height() + carrot_text.get_height())
+        window_size[0] - month_text.get_width() - 10, 10 + rabbit_text.get_height() + carrot_text.get_height())
 
     screen.blit(rabbit_text, rabbit_text_position)
     screen.blit(carrot_text, carrot_text_position)
