@@ -57,7 +57,6 @@ class SettingsMenu:
             raise ValueError("is_fox_enabled doit être un booléen.")
         self._is_fox_enabled = value
 
-
 def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_background_image, prev_button_image):
     pygame.init()
     font = pygame.font.SysFont('comicsansms', 30)
@@ -106,18 +105,18 @@ def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_bac
             text_rect = text_surface.get_rect(left=screen.get_width() // 2, top=y_offset_right)
             screen.blit(text_surface, text_rect)
 
-            image = on_image if (text == "Hunter:" and settings_menu.is_hunter_enabled) or (
-                        text == "Fox:" and settings_menu.is_fox_enabled) else off_image
+            is_hunter_enabled = settings_menu.is_hunter_enabled and text == "Hunter:"
+            is_fox_enabled = settings_menu.is_fox_enabled and text == "Fox:"
+
+            image = on_image if is_hunter_enabled or is_fox_enabled else off_image
             image_rect = image.get_rect(left=screen.get_width() // 2 + 150, top=y_offset_right)
             screen.blit(image, image_rect)
 
             if clicked and image_rect.collidepoint(mouse_pos):
                 if text == "Hunter:":
                     settings_menu.is_hunter_enabled = not settings_menu.is_hunter_enabled
-                    hunter_enabled = not settings_menu.is_hunter_enabled
-                else:  # "Fox:"
+                elif text == "Fox:":
                     settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
-
             y_offset_right += 60
 
         pygame.display.update()
