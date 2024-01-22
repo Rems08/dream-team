@@ -17,6 +17,7 @@ pygame.display.set_caption("Rabbit Garden")
 logo_image = pygame.image.load('img/logo.png')
 logo_image = pygame.transform.scale(logo_image, (300, 300))
 
+
 def fade_in_out(image, logo, screen, duration, stay_time):
     """ Fades an image and a logo in and out on the screen. """
     fade_in_duration = fade_out_duration = duration / 2
@@ -45,6 +46,7 @@ def fade_in_out(image, logo, screen, duration, stay_time):
         screen.blit(logo, logo_rect)
         pygame.display.update()
 
+
 # Loading and displaying the loading screen
 loading_image = pygame.image.load('img/loading.png')
 desired_width = 1024
@@ -64,6 +66,7 @@ play_button_image = pygame.image.load('img/play.png')
 setting_button_image = pygame.image.load('img/setting.png')
 exit_button_image = pygame.image.load('img/exit.png')
 prev_button_image = pygame.image.load('img/prev.png')
+
 
 def show_menu():
     menu = True
@@ -103,22 +106,22 @@ def show_menu():
         button_y_position = 300
         play_button_rect = play_button_image.get_rect(center=(window_size[0] // 2 - 150, button_y_position))
         if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+            pygame.quit()
+            quit()
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                clicked = True
-                mouse_pos = pygame.mouse.get_pos()
+            clicked = True
+            mouse_pos = pygame.mouse.get_pos()
 
-                # Actions des boutons
-                if play_button_rect.collidepoint(mouse_pos):
-                    menu = False  # Quitter le menu et lancer la partie
-                elif setting_button_rect.collidepoint(mouse_pos):
-                    show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
-                    # Ouvrir le menu des options
-                elif exit_button_rect.collidepoint(mouse_pos):
-                    pygame.quit()
-                    quit()
+            # Actions des boutons
+            if play_button_rect.collidepoint(mouse_pos):
+                menu = False  # Quitter le menu et lancer la partie
+            elif setting_button_rect.collidepoint(mouse_pos):
+                show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
+                # Ouvrir le menu des options
+            elif exit_button_rect.collidepoint(mouse_pos):
+                pygame.quit()
+                quit()
 
         screen.blit(menu_background_image, (0, 0))
         logo_rect = logo_image.get_rect(center=(window_size[0] // 2, 100))
@@ -142,7 +145,7 @@ def show_menu():
         mouse_pos = pygame.mouse.get_pos()
 
         # Actions des boutons
-        
+
         if play_button_rect.collidepoint(mouse_pos) and clicked:
             menu = False  # Quitter le menu et lancer la partie
         if setting_button_rect.collidepoint(mouse_pos) and clicked:
@@ -155,13 +158,15 @@ def show_menu():
 
         pygame.display.update()
 
+
 show_menu()
 
 background_image = pygame.image.load('img/garden.png')
 background_image = pygame.transform.scale(background_image, window_size)
 
 rabbit_image = pygame.image.load('img/rabbit.png')
-rabbit_image = pygame.transform.scale(rabbit_image, (int(rabbit_image.get_width() * 0.1), int(rabbit_image.get_height() * 0.1)))
+rabbit_image = pygame.transform.scale(rabbit_image,
+                                      (int(rabbit_image.get_width() * 0.1), int(rabbit_image.get_height() * 0.1)))
 
 carrot_image = pygame.image.load('img/carrot.png')
 carrot_image = pygame.transform.scale(carrot_image, (20, 20))
@@ -180,7 +185,6 @@ weeks = []
 rabbit_counts = []
 carrot_counts = []
 total_months = 0
-
 
 # Main loop for the simulation over 6 years
 running = True
@@ -206,7 +210,7 @@ while running:
             screen.blit(rabbit_image, pos)
 
     rabbit_count = len(garden.rabbits)
-    carrot_count = garden.carrots.count 
+    carrot_count = garden.carrots.count
     font = pygame.font.Font(None, 36)
     rabbit_text = font.render(f'Lapins: {rabbit_count}', True, (255, 255, 255))
     carrot_text = font.render(f'Carottes: {carrot_count}', True, (255, 255, 255))
@@ -216,7 +220,8 @@ while running:
 
     months = total_months + (garden.current_week // 4)  # Assuming 4 weeks per month
     month_text = font.render(f'Mois: {months}', True, (255, 255, 255))
-    month_text_position = (window_size[0] - month_text.get_width() - 10, 10 + rabbit_text.get_height() + carrot_text.get_height())
+    month_text_position = (
+    window_size[0] - month_text.get_width() - 10, 10 + rabbit_text.get_height() + carrot_text.get_height())
 
     screen.blit(rabbit_text, rabbit_text_position)
     screen.blit(carrot_text, carrot_text_position)
