@@ -31,7 +31,7 @@ class Garden:
         self.margin_x = margin_x
         self.margin_y = margin_y
         self.rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
-        self.carrots = Carrot(200)
+        self.carrots = Carrot(0)
         self.current_week = 9
         self.last_planting_year = 0
         self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
