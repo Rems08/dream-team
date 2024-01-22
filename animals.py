@@ -2,8 +2,14 @@
 import random
 from enum import Enum
 
+from enum import Enum
+
 
 # Enumeration for genders
+class Gender(Enum):
+    MALE = 1
+    FEMALE = 2
+
 class Gender(Enum):
     MALE = 1
     FEMALE = 2
@@ -56,6 +62,7 @@ class Rabbit:
         return self.is_sick(epidemic_risk, rabbit_population)
 
 
+
 # Fox Class
 def pick_random_rabbit(rabbits):
     return random.choice(rabbits)
@@ -68,18 +75,13 @@ class Fox:
         self.image = image
         self.hunger = 0  # Fox hunger level, increases over time
 
-    def hunt(self, current_week, rabbits):
-        if not self.__should_eat_this_weekend(current_week):
-            self.hunger += 1
-            return
-
-        if rabbits:
-            rabbit = pick_random_rabbit(rabbits)
-            rabbits.remove(rabbit)
-            self.hunger = 0
-
-    def __should_eat_this_weekend(self, current_week):
-        return current_week % self.EATING_FREQUENCY_WEEKS == 0
+    def hunt(self, rabbits):
+        if rabbits and self.hunger >= 4:  # Par exemple, le renard chasse s'il a faim (tous les 4 semaines)
+            rabbit = random.choice(rabbits)  # Choisir un lapin au hasard
+            rabbits.remove(rabbit)  # Le renard mange le lapin
+            self.hunger = 0  # Réinitialiser la faim du renard
+        else:
+            self.hunger += 1  # Augmenter la faim si le renard ne mange pas
 
 
 # Hunter Class
