@@ -11,7 +11,7 @@ Nous avons utilisé plusieurs fichiers pour ce projet. Le fichier animals.py con
 
 C'est une énumération qui représente le genre. Elle a deux valeurs possibles : MALE et FEMALE.
 
-## Rabit 
+## Rabbit 
 
 Cette classe représente un lapin. Chaque instance de cette classe a plusieurs attributs, tels que le genre, l'âge, l'état de faim, le nombre de semaines sans nourriture et la dernière semaine de reproduction. Elle a aussi plusieurs méthodes pour vieillir le lapin, le faire manger, vérifier s'il peut se reproduire, s'il est malade ou s'il est mort.
 
