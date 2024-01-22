@@ -4,7 +4,6 @@ from enum import Enum
 
 from enum import Enum
 
-
 # Enumeration for genders
 class Gender(Enum):
     MALE = 1
@@ -13,7 +12,6 @@ class Gender(Enum):
 class Gender(Enum):
     MALE = 1
     FEMALE = 2
-
 
 # Rabbit Class
 class Rabbit:
@@ -60,7 +58,6 @@ class Rabbit:
         if current_week is not None and current_week <= 12 and self.last_reproduction_week is None:
             return False
         return self.is_sick(epidemic_risk, rabbit_population)
-
 
 
 # Fox Class
