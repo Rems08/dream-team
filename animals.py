@@ -69,7 +69,7 @@ class Fox:
         self.hunger = 0  # Fox hunger level, increases over time
 
     def hunt(self, current_week, rabbits):
-        if not self.__should_eat_this_weekend(weekend):
+        if not self.__should_eat_this_weekend(current_week):
             self.hunger += 1
             return
 
