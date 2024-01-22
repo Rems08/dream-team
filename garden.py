@@ -70,6 +70,7 @@ class Garden:
                 self.rabbits.remove(rabbit)
 
         self.handle_reproduction()
+        self.handle_hunters()
 
     def handle_reproduction(self):
         """ Handles the reproduction of rabbits in the garden. """
@@ -87,12 +88,11 @@ class Garden:
                     mother.last_reproduction_week = self.current_week // self.WEEKS_PER_YEAR
                     father.last_reproduction_week = self.current_week // self.WEEKS_PER_YEAR
 
-    def update(self):
-        self.weekly_update()
-        # Call this method each week/month to update the garden state
-        # Implement logic for fox and hunter actions
+    def handle_hunters(self):
+        print(f"FOX KILLED BEFORE: {self.fox.killed_rabbits}")
         if self.fox:
             self.fox.hunt(self.current_week, self.rabbits)  # Le renard chasse les lapins
+            print(f"FOX KILLED AFTER: {self.fox.killed_rabbits}")
 
         if self.hunter and self.current_week % 12 == 0:  # Par exemple, le chasseur chasse tous les 3 mois
             self.hunter.hunt(self.current_week, self.foxes)

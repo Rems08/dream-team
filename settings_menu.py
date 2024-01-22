@@ -116,7 +116,8 @@ def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_bac
                     settings_menu.is_hunter_enabled = not settings_menu.is_hunter_enabled
                     hunter_enabled = not settings_menu.is_hunter_enabled
                 else:  # "Fox:"
-                    settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
+                    # settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
+                    settings_menu.is_fox_enabled = False
 
             y_offset_right += 60
 
