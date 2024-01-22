@@ -82,6 +82,10 @@ class Fox:
         return current_week % self.EATING_FREQUENCY_WEEKS == 0
 
 
+def pick_random_fox(foxes):
+    return random.choice(foxes)
+
+
 # Hunter Class
 class Hunter:
     def __init__(self, image):
@@ -91,8 +95,13 @@ class Hunter:
         self.last_hunt_week = 0  # Semaine de la dernière chasse
 
     def hunt(self, current_week, foxes):
-        if current_week - self.last_hunt_week >= self.hunting_interval and self.ammunition > 0 and foxes:
-            fox = random.choice(foxes)  # Choisir un renard au hasard
-            foxes.remove(fox)  # Tuer le renard
-            self.ammunition -= 1  # Utiliser une munition
-            self.last_hunt_week = current_week  # Mettre à jour la dernière semaine de chasse
+        if not self.__can_hunt(current_week) or not foxes:
+            return
+
+        fox = pick_random_fox(foxes)  # Choisir un renard au hasard
+        foxes.remove(fox)
+        self.ammunition -= 1  # Utiliser une munition
+        self.last_hunt_week = current_week  # Mettre à jour la dernière semaine de chasse
+
+    def __can_hunt(self, current_week):
+        return current_week - self.last_hunt_week >= self.hunting_interval and self.ammunition > 0
