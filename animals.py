@@ -57,18 +57,29 @@ class Rabbit:
 
 
 # Fox Class
+def pick_random_rabbit(rabbits):
+    return random.choice(rabbits)
+
+
 class Fox:
+    EATING_FREQUENCY_WEEKS = 4
+
     def __init__(self, image):
         self.image = image
         self.hunger = 0  # Fox hunger level, increases over time
 
-    def hunt(self, rabbits):
-        if rabbits and self.hunger >= 4:  # Par exemple, le renard chasse s'il a faim (tous les 4 semaines)
-            rabbit = random.choice(rabbits)  # Choisir un lapin au hasard
-            rabbits.remove(rabbit)  # Le renard mange le lapin
-            self.hunger = 0  # Réinitialiser la faim du renard
-        else:
-            self.hunger += 1  # Augmenter la faim si le renard ne mange pas
+    def hunt(self, current_week, rabbits):
+        if not self.__should_eat_this_weekend(weekend):
+            self.hunger += 1
+            return
+
+        if rabbits:
+            rabbit = pick_random_rabbit(rabbits)
+            rabbits.remove(rabbit)
+            self.hunger = 0
+
+    def __should_eat_this_weekend(self, current_week):
+        return current_week % self.EATING_FREQUENCY_WEEKS == 0
 
 
 # Hunter Class
@@ -79,7 +90,7 @@ class Hunter:
         self.hunting_interval = 12  # Fréquence de chasse (tous les 3 mois)
         self.last_hunt_week = 0  # Semaine de la dernière chasse
 
-    def hunt(self, foxes, current_week):
+    def hunt(self, current_week, foxes):
         if current_week - self.last_hunt_week >= self.hunting_interval and self.ammunition > 0 and foxes:
             fox = random.choice(foxes)  # Choisir un renard au hasard
             foxes.remove(fox)  # Tuer le renard
