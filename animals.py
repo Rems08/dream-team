@@ -2,12 +2,16 @@
 import random
 from enum import Enum
 
+from enum import Enum
 
 # Enumeration for genders
 class Gender(Enum):
     MALE = 1
     FEMALE = 2
 
+class Gender(Enum):
+    MALE = 1
+    FEMALE = 2
 
 # Rabbit Class
 class Rabbit:

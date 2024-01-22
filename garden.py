@@ -31,7 +31,7 @@ class Garden:
         self.margin_x = margin_x
         self.margin_y = margin_y
         self.rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
-        self.carrots = Carrot(200)
+        self.carrots = Carrot(0)
         self.current_week = 9
         self.last_planting_year = 0
         self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
@@ -56,9 +56,6 @@ class Garden:
         if week_of_year == 9 and current_year != self.last_planting_year:
             self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
             self.last_planting_year = current_year
-
-        if week_of_year == 22:
-            self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
 
         rabbit_population = len(self.rabbits)
         epidemic_risk = 0.05
