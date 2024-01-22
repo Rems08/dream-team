@@ -92,7 +92,7 @@ class Garden:
         # Call this method each week/month to update the garden state
         # Implement logic for fox and hunter actions
         if self.fox:
-            self.fox.hunt(self.rabbits)  # Le renard chasse les lapins
+            self.fox.hunt(self.current_week, self.rabbits)  # Le renard chasse les lapins
 
         if self.hunter and self.current_week % 12 == 0:  # Par exemple, le chasseur chasse tous les 3 mois
-            self.hunter.hunt(self.foxes)
+            self.hunter.hunt(self.current_week, self.foxes)
