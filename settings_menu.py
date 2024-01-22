@@ -115,8 +115,11 @@ def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_bac
             if clicked and image_rect.collidepoint(mouse_pos):
                 if text == "Hunter:":
                     settings_menu.is_hunter_enabled = not settings_menu.is_hunter_enabled
-                elif text == "Fox:":
-                    settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
+                    hunter_enabled = not settings_menu.is_hunter_enabled
+                else:  # "Fox:"
+                    # settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
+                    settings_menu.is_fox_enabled = False
+
             y_offset_right += 60
 
         pygame.display.update()

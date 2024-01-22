@@ -177,11 +177,16 @@ margin = 0.07
 margin_x = int(window_size[0] * margin)
 margin_y = int(window_size[1] * margin)
 
-garden = Garden(window_size, margin_x, margin_y)
+# Assuming Garden, Gender, and other classes are defined in other modules
+from garden import Garden
+from animals import Gender
+
+garden = Garden(window_size, margin_x, margin_y, has_fox=False)
 
 weeks = []
 rabbit_counts = []
 carrot_counts = []
+rabbit_killed_counts = []
 total_months = 0
 
 # Main loop for the simulation over 6 years
@@ -234,12 +239,21 @@ while running:
     weeks.append(garden.current_week)
     rabbit_counts.append(len(garden.rabbits))
     carrot_counts.append(garden.carrots.count)
+    
+    if garden.fox is not None:
+        rabbit_killed_counts.append(garden.fox.killed_rabbits)
 
 # Data visualization with Matplotlib
 
+# Create graphic with Matplotlib
 plt.figure(figsize=(10, 6))
 plt.plot(weeks, rabbit_counts, label='Rabbits')
 plt.plot(weeks, carrot_counts, label='Carrots')
+
+# Add count only if fox is enabled
+if rabbit_killed_counts:
+    plt.plot(weeks, rabbit_killed_counts, label='Killed rabbits')
+
 plt.xlabel('Weeks')
 plt.ylabel('Count')
 plt.title('Evolution of the Rabbit and Carrot Garden')

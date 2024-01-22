@@ -69,6 +69,7 @@ class Fox:
     def __init__(self, image):
         self.image = image
         self.hunger = 0  # Fox hunger level, increases over time
+        self.killed_rabbits = 0  # Number of rabbits killed by the fox
 
     def hunt(self, current_week, rabbits):
         if not self.__should_eat_this_weekend(current_week):
@@ -78,6 +79,7 @@ class Fox:
         if rabbits:
             rabbit = pick_random_rabbit(rabbits)
             rabbits.remove(rabbit)
+            self.killed_rabbits += 1
             self.hunger = 0
 
     def __should_eat_this_weekend(self, current_week):
