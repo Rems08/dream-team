@@ -57,9 +57,6 @@ class Garden:
             self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
             self.last_planting_year = current_year
 
-        if week_of_year == 22:
-            self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
-
         rabbit_population = len(self.rabbits)
         epidemic_risk = 0.05
 
