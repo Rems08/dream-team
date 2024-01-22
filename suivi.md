@@ -1,13 +1,23 @@
+# Description du projet
+
 Ce projet consiste à créer une simulation des populations de lapins et de carottes dans un jardin sur une période de six ans, avec des règles spécifiques régissant la durée de vie des lapins, la reproduction et la croissance des carottes. L'objectif est de suivre et de tracer les changements de population chaque semaine à l'aide de Python.
 
 Voici un plan de haut niveau pour développer ce projet :
 
-Classes Définition :
+# Classes Définition
 
-Lapin : Pour représenter les lapins individuels, avec des attributs tels que l'âge, le sexe et l'état de faim, ainsi que des méthodes pour vieillir, manger, se reproduire et vérifier la mort.
-Carotte : Pour représenter des carottes individuelles. Cette classe peut être simple car les carottes n'ont pas de comportements complexes.
-Jardin : Pour représenter l'environnement du jardin, contenant des lapins et des carottes, et des méthodes pour simuler les activités hebdomadaires (par exemple, faire pousser des carottes, nourrir les lapins).
-Logique de simulation :
+## La classe Lapin 
+Pour représenter les lapins individuels, avec des attributs tels que l'âge, le sexe et l'état de faim, ainsi que des méthodes pour vieillir, manger, se reproduire et vérifier la mort.
+
+## La classe Carotte
+Pour représenter des carottes individuelles. Cette classe peut être simple car les carottes n'ont pas de comportements complexes.
+
+## La classe Jardin
+
+Pour représenter l'environnement du jardin, contenant des lapins et des carottes, et des méthodes pour simuler les activités hebdomadaires (par exemple, faire pousser des carottes, nourrir les lapins).
+
+
+# Logique de simulation :
 
 Mises à jour hebdomadaires pour le vieillissement, l'alimentation et la reproduction des lapins.
 Cycle de croissance et de récolte des carottes.
@@ -16,7 +26,8 @@ Ajustement des populations de lapins et de carottes en conséquence.
 Visualisation des données :
 
 Utilisation de matplotlib pour représenter graphiquement les populations de lapins et de carottes au fil du temps.
-Bonnes pratiques :
+
+# Bonnes pratiques :
 
 Code propre et lisible avec des conventions de dénomination appropriées.
 Documentation et commentaires pour plus de clarté.
