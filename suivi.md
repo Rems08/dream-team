@@ -3,14 +3,28 @@
 Ce projet consiste à créer une simulation des populations de lapins et de carottes dans un jardin sur une période de six ans, avec des règles spécifiques régissant la durée de vie des lapins, la reproduction et la croissance des carottes. L'objectif est de suivre et de tracer les changements de population chaque semaine à l'aide de Python.
 
 
-Nous avons utilisé plusieurs fichiers pour ce projet. Le fichier `rabbit.py` contient la classe Rabbit, qui représente les lapins individuels. Le fichier `carrot.py` contient la classe Carrot, qui représente les carottes individuelles. Le fichier `garden.py` contient la classe Garden, qui représente l'environnement du jardin, contenant des lapins et des carottes. Le fichier `simulation.py` contient la boucle de simulation principale, qui met à jour les lapins et les carottes chaque semaine. Le fichier `plot.py` contient le code pour tracer les populations de lapins et de carottes au fil du temps.
+Nous avons utilisé plusieurs fichiers pour ce projet. Le fichier animals.py contient la classe Rabbit la classe Fox et la classe Hunter. Le fichier garden.py contient la classe Carrot et Garden. Le fichier main.py contient le code principal pour exécuter la simulation. Le fichier requirements.txt contient les dépendances du projet. Le fichier README.md contient des informations sur le projet.
+
+# Animals.py
+
+## Gender 
+
+C'est une énumération qui représente le genre. Elle a deux valeurs possibles : MALE et FEMALE.
+
+## Rabit 
+
+Cette classe représente un lapin. Chaque instance de cette classe a plusieurs attributs, tels que le genre, l'âge, l'état de faim, le nombre de semaines sans nourriture et la dernière semaine de reproduction. Elle a aussi plusieurs méthodes pour vieillir le lapin, le faire manger, vérifier s'il peut se reproduire, s'il est malade ou s'il est mort.
 
 
+## Fox 
 
-# Les classes utilisées
+Cette classe représente un renard. Chaque instance de cette classe a une image et un niveau de faim. Elle a une méthode pour chasser les lapins. Si le renard ne mange pas, son niveau de faim augmente. Si le renard mange, son niveau de faim est réinitialisé à zéro.
 
-## La classe Rabbits 
-Pour représenter les lapins individuels, avec des attributs tels que l'âge, le sexe et l'état de faim, ainsi que des méthodes pour vieillir, manger, se reproduire et vérifier la mort.
+## Hunter
+
+Cette classe représente un chasseur. Chaque instance de cette classe a une image, un certain nombre de munitions, un intervalle de chasse et la dernière semaine de chasse. Elle a une méthode pour chasser les renards. Si le chasseur peut chasser et qu'il y a des renards, il chasse un renard au hasard, utilise une munition et met à jour la dernière semaine de chasse.
+
+# Garden.py
 
 ## La classe Carrot
 Pour représenter des carottes individuelles. Cette classe peut être simple car les carottes n'ont pas de comportements complexes.
