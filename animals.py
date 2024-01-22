@@ -1,11 +1,13 @@
 # animals.py
-
 import random
+from enum import Enum
+
 
 # Enumeration for genders
-class Gender:
-    MALE = "male"
-    FEMALE = "female"
+class Gender(Enum):
+    MALE = 1
+    FEMALE = 2
+
 
 # Rabbit Class
 class Rabbit:
@@ -53,13 +55,12 @@ class Rabbit:
             return False
         return self.is_sick(epidemic_risk, rabbit_population)
 
+
 # Fox Class
 class Fox:
     def __init__(self, image):
         self.image = image
         self.hunger = 0  # Fox hunger level, increases over time
-        
-        
 
     def hunt(self, rabbits):
         if rabbits and self.hunger >= 4:  # Par exemple, le renard chasse s'il a faim (tous les 4 semaines)
