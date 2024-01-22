@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from garden import Garden
 from animals import Gender
 from settings_menu import show_settings_menu
+from settings_menu import SettingsMenu
 import random
 import time
 
@@ -66,6 +67,7 @@ prev_button_image = pygame.image.load('img/prev.png')
 
 def show_menu():
     menu = True
+    settings_menu = SettingsMenu(2, 200, False, False)
     while menu:
         clicked = False  # Définir 'clicked' à chaque itération de la boucle principale
 
@@ -112,7 +114,7 @@ def show_menu():
                 if play_button_rect.collidepoint(mouse_pos):
                     menu = False  # Quitter le menu et lancer la partie
                 elif setting_button_rect.collidepoint(mouse_pos):
-                    show_settings_menu(screen, logo_image, menu_background_image, prev_button_image)
+                    show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
                     # Ouvrir le menu des options
                 elif exit_button_rect.collidepoint(mouse_pos):
                     pygame.quit()
@@ -144,7 +146,7 @@ def show_menu():
         if play_button_rect.collidepoint(mouse_pos) and clicked:
             menu = False  # Quitter le menu et lancer la partie
         if setting_button_rect.collidepoint(mouse_pos) and clicked:
-            show_settings_menu(screen, logo_image, menu_background_image, prev_button_image)
+            show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
             # Ouvrir le menu des options
             pass
         elif exit_button_rect.collidepoint(mouse_pos) and clicked:
