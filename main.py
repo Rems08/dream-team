@@ -94,7 +94,7 @@ def show_menu():
                 if play_button_rect.collidepoint(mouse_pos):
                     menu = False  # Quitter le menu et lancer la partie
                 elif setting_button_rect.collidepoint(mouse_pos):
-                    show_settings_menu(screen, logo_image, menu_background_image, prev_button_image)
+                    show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
                     # Ouvrir le menu des options
                 elif exit_button_rect.collidepoint(mouse_pos):
                     pygame.quit()
