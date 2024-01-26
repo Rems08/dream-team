@@ -195,12 +195,14 @@ def display_statistics(screen, garden):
     screen.blit(hunter_text, (10, 170))
 
 
-def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
+def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts, fox_killed_counts):
     """
     Visualise les données collectées à l'aide de matplotlib.
     """
     plt.plot(weeks, rabbit_counts, label='Lapins')
     plt.plot(weeks, carrot_counts, label='Carottes')
+    plt.plot(weeks, rabbit_killed_counts, label='Lapins tués')
+    plt.plot(weeks, fox_killed_counts, label='Renards tués')
 
     # plt.plot(weeks, [rabbit_counts[i] - rabbit_killed_counts[i] for i in range(len(rabbit_counts))], label='Lapins vivants')
     # plt.plot(weeks, rabbit_killed_counts, label='Lapins tués')
@@ -236,7 +238,7 @@ config = GardenConfig(window_config, 0, 1, 0)
 garden = create_garden(config)
 
 # Variables pour la visualisation des données
-weeks, rabbit_counts, carrot_counts = [], [], []
+weeks, rabbit_counts, carrot_counts, rabbit_killed_counts, fox_killed_counts= [], [], [], [], []
 
 # Boucle principale du jeu
 running = True
@@ -253,12 +255,14 @@ while running:
     weeks.append(garden.current_week)
     rabbit_counts.append(len(garden.rabbits))
     carrot_counts.append(garden.carrots.count)
+    rabbit_killed_counts.append(garden.rabbits_killed_count)
+    fox_killed_counts.append(garden.foxes_killed_count)
 
     pygame.display.flip()
     pygame.time.delay(100)
 
 
 # Visualisation des données
-plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count)
+plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count, garden.foxes_killed_count)
 
 pygame.quit()
