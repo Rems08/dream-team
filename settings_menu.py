@@ -57,7 +57,41 @@ class SettingsMenu:
             raise ValueError("is_fox_enabled doit être un booléen.")
         self._is_fox_enabled = value
 
+
+class InputBox:
+    def __init__(self, x, y, w, h, text=''):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.color = (255, 255, 255)
+        self.text = text
+        self.font = pygame.font.SysFont('comicsansms', 30)
+        self.txt_surface = self.font.render(text, True, self.color)
+    
+
+    def handle_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            if self.rect.collidepoint(pygame.mouse.get_pos()):  # Vérifie si la souris est sur l'InputBox
+                if event.key == pygame.K_RETURN:
+                    print(self.text)  # Affiche le texte de cette InputBox
+                    self.text = ''  # Réinitialise uniquement le texte de cette InputBox
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]  # Enlève le dernier caractère de cette InputBox
+                else:
+                    self.text += event.unicode  # Ajoute le caractère tapé à cette InputBox
+                self.txt_surface = self.font.render(self.text, True, self.color)
+
+    def update(self):
+        width = max(200, self.txt_surface.get_width()+10)
+        self.rect.w = width
+
+    def draw(self, screen):
+        screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
+        pygame.draw.rect(screen, self.color, self.rect, 2)
+
 def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_background_image, prev_button_image):
+    input_box_rabbit = InputBox(300, 200, 140, 32)
+    input_box_carrot = InputBox(300, 240, 140, 32)
+    input_boxes = [input_box_rabbit, input_box_carrot]
+    
     pygame.init()
     font = pygame.font.SysFont('comicsansms', 30)
 
@@ -78,6 +112,9 @@ def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_bac
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 clicked = True
+
+            for box in input_boxes:
+                box.handle_event(event)  # Gère les événements pour chaque InputBox
 
         screen.blit(menu_background_image, (0, 0))
         logo_rect = logo_image.get_rect(center=(screen.get_width() // 2, 100))
@@ -119,6 +156,10 @@ def show_settings_menu(settings_menu: SettingsMenu, screen, logo_image, menu_bac
                     settings_menu.is_fox_enabled = not settings_menu.is_fox_enabled
 
             y_offset_right += 60
+        
+        for box in input_boxes:
+            box.update()  # Met à jour chaque InputBox séparément
+            box.draw(screen)  # Dessine chaque InputBox sur l'écran
 
         pygame.display.update()
 
