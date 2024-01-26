@@ -22,3 +22,6 @@ Nous avons eu plusieurs idées pour ce projet lors du brain sotrming.
 5. **Fêtes de Paques :**
    Nous avions l'idée amusante de transformer tous les lapins en lapins de Pâques. Deux petits enfants apparaîtraient alors, jouant le rôle de chasseurs de lapins dans un événement ludique et festif.
 
+6. **League of Legends :**
+   Si un lapin joue au jeu league of legends, il perd la possibilité de s'accoupler.
+
