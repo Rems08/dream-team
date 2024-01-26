@@ -16,9 +16,9 @@ Nous avons eu plusieurs idées pour ce projet lors du brain sotrming.
 3. **Maladie des carottes et lapins zombie :**
    Une autre idée était de créer une maladie des carottes qui aurait pu transformer les lapins en "lapins zombie". Cependant, nous avons décidé de retirer cette idée de notre roadmap.
 
-4. ** Saint Valentin : **
+4. **Saint Valentin :**
    Nous envisageons d'instaurer une journée spéciale dédiée à l'amour, inspirée de la Saint-Valentin, où les lapins auront davantage d'opportunités d'accouplement.
 
-5. ** Fêtes de Paques : **
+5. **Fêtes de Paques :**
    Nous avions l'idée amusante de transformer tous les lapins en lapins de Pâques. Deux petits enfants apparaîtraient alors, jouant le rôle de chasseurs de lapins dans un événement ludique et festif.
 
