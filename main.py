@@ -263,6 +263,6 @@ while running:
 
 
 # Visualisation des données
-plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count, garden.foxes_killed_count)
+plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts, fox_killed_counts)
 
 pygame.quit()
