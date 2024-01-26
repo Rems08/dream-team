@@ -4,9 +4,11 @@ import time
 import matplotlib.pyplot as plt
 import pygame
 
+from animals import Gender
+from garden import GardenConfig, WindowConfig, create_garden
 from settings_menu import SettingsMenu, show_settings_menu
 
-# Constants and Global Variables
+# Constantes et configurations
 WINDOW_SIZE = (1024, 576)
 IMAGE_PATHS = {
     "logo": 'img/logo.png',
@@ -26,44 +28,39 @@ RABBIT_SCALE = 0.1
 CARROT_SIZE = (20, 20)
 MARGIN = 0.07
 
-
-# Helper Functions
-def load_image(path, size=None):
-    """Loads and optionally scales an image."""
-    image = pygame.image.load(path)
-    return pygame.transform.scale(image, size) if size else image
-
-
-# Main Game Initialization
+# Initialisation de Pygame
 pygame.init()
 screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Rabbit Garden")
 
-# Load Images
-logo_image = load_image(LOGO_PATH, (300, 300))
-loading_image = load_image(LOADING_PATH, WINDOW_SIZE)
-menu_background_image = load_image(MENU_BACKGROUND_PATH, WINDOW_SIZE)
-play_button_image = load_image(PLAY_BUTTON_PATH)
-setting_button_image = load_image(SETTING_BUTTON_PATH)
-exit_button_image = load_image(EXIT_BUTTON_PATH)
-prev_button_image = load_image(PREV_BUTTON_PATH)
-background_image = load_image(GARDEN_PATH, WINDOW_SIZE)
-rabbit_image = load_image(RABBIT_PATH, (int(RABBIT_PATH.get_width() * 0.1), int(RABBIT_PATH.get_height() * 0.1)))
-carrot_image = load_image(CARROT_PATH, (20, 20))
 
+# Fonctions auxiliaires
+def load_and_scale_image(path, scale=None):
+    """
+    Charge une image à partir d'un chemin et la redimensionne si nécessaire.
 
-def load_image(path, size=None):
-    """Chargement et redimensionnement optionnel d'une image."""
+    :param path: Chemin du fichier image.
+    :param scale: Tuple (largeur, hauteur) pour redimensionner l'image. Si None, l'image n'est pas redimensionnée.
+    :return: Image pygame redimensionnée.
+    """
+    # Chargement de l'image à partir du chemin
     image = pygame.image.load(path)
-    return pygame.transform.scale(image, size) if size else image
+
+    # Redimensionnement de l'image si une échelle est fournie
+    if scale:
+        image = pygame.transform.scale(image, scale)
+
+    return image
 
 
 def fade_in_out(image, logo, screen, duration, stay_time):
-    """ Fades an image and a logo in and out on the screen. """
+    """
+    Effectue un fondu en entrée et sortie pour une image et un logo sur l'écran.
+    """
     fade_in_duration = fade_out_duration = duration / 2
     start_time = time.time()
-    image_rect = image.get_rect(center=(window_size[0] // 2, window_size[1] // 2))
-    logo_rect = logo.get_rect(center=(window_size[0] // 2, window_size[1] // 2))
+    image_rect = image.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2))
+    logo_rect = logo.get_rect(center=(WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2))
 
     while True:
         current_time = time.time()
@@ -80,53 +77,38 @@ def fade_in_out(image, logo, screen, duration, stay_time):
             break
 
         image.set_alpha(alpha)
-        logo.set_alpha(alpha)  # Applique le même alpha au logo
+        logo.set_alpha(alpha)
         screen.fill((0, 0, 0))
         screen.blit(image, image_rect)
         screen.blit(logo, logo_rect)
         pygame.display.update()
 
 
-# Main Execution Logic
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
-
-
-# Loading and displaying the loading screen
-loading_image = pygame.image.load('img/loading.png')
-desired_width = 1024
-desired_height = 576
-loading_image = pygame.transform.scale(loading_image, (desired_width, desired_height))
-fade_duration = 1.0  # Duration for fade in and fade out
-stay_duration = 1.0  # Duration for the image to stay visible
-fade_in_out(loading_image, logo_image, screen, fade_duration, stay_duration)
-
-# Chargement des images pour le menu
-menu_background_image = pygame.image.load('img/menuBackground.png')
-menu_background_image = pygame.transform.scale(menu_background_image, window_size)
-logo_image = pygame.image.load('img/logo.png')
-logo_image = pygame.transform.scale(logo_image, (200, 200))
-
-play_button_image = pygame.image.load('img/play.png')
-setting_button_image = pygame.image.load('img/setting.png')
-exit_button_image = pygame.image.load('img/exit.png')
-prev_button_image = pygame.image.load('img/prev.png')
-
-
-def show_menu():
+def show_menu(screen, images):
+    """
+    Affiche le menu principal et gère les interactions utilisateur.
+    """
     menu = True
-    settings_menu = SettingsMenu(2, 200, False, False)
-    while menu:
-        clicked = False  # Définir 'clicked' à chaque itération de la boucle principale
+    settings_menu = SettingsMenu(2, 200, False, False)  # Exemple de configuration
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+    # Chargement des images des boutons
+    play_button_image = images['play_button']
+    setting_button_image = images['setting_button']
+    exit_button_image = images['exit_button']
+
+    # Positionnement des boutons
+    button_y_position = 300
+    play_button_rect = play_button_image.get_rect(center=(WINDOW_SIZE[0] // 2 - 150, button_y_position))
+    setting_button_rect = setting_button_image.get_rect(center=(WINDOW_SIZE[0] // 2, button_y_position))
+    exit_button_rect = exit_button_image.get_rect(center=(WINDOW_SIZE[0] // 2 + 150, button_y_position))
+
+    while menu:
+        screen.blit(images['menu_background'], (0, 0))
+        screen.blit(play_button_image, play_button_rect)
+        screen.blit(setting_button_image, setting_button_rect)
+        screen.blit(exit_button_image, exit_button_rect)
+
+        pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -134,177 +116,149 @@ def show_menu():
                 quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                clicked = True
                 mouse_pos = pygame.mouse.get_pos()
 
                 # Actions des boutons
                 if play_button_rect.collidepoint(mouse_pos):
                     menu = False  # Quitter le menu et lancer la partie
                 elif setting_button_rect.collidepoint(mouse_pos):
-                    show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
-                    # Ouvrir le menu des options
+                    show_settings_menu(settings_menu, screen, images['logo'], images['menu_background'],
+                                       images['prev_button'])
                 elif exit_button_rect.collidepoint(mouse_pos):
                     pygame.quit()
                     quit()
 
-        screen.blit(menu_background_image, (0, 0))
-        logo_rect = logo_image.get_rect(center=(window_size[0] // 2, 100))
-        screen.blit(logo_image, logo_rect)
 
-        # Positionnement des boutons en ligne
-        button_y_position = 300
-        play_button_rect = play_button_image.get_rect(center=(window_size[0] // 2 - 150, button_y_position))
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
+def display_simulation(screen, garden, images):
+    """
+    Affiche les éléments de la simulation.
+    """
+    screen.blit(images['garden'], (0, 0))
+    for pos in garden.carrots.positions:
+        screen.blit(images['carrot'], pos)
 
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            clicked = True
-            mouse_pos = pygame.mouse.get_pos()
+    for rabbit in garden.rabbits:
+        rabbit_img = images['rabbit']
+        if rabbit.gender == Gender.MALE:
+            rabbit_img = pygame.transform.flip(rabbit_img, True, False)
 
-            # Actions des boutons
-            if play_button_rect.collidepoint(mouse_pos):
-                menu = False  # Quitter le menu et lancer la partie
-            elif setting_button_rect.collidepoint(mouse_pos):
-                show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
-                # Ouvrir le menu des options
-            elif exit_button_rect.collidepoint(mouse_pos):
-                pygame.quit()
-                quit()
-
-        screen.blit(menu_background_image, (0, 0))
-        logo_rect = logo_image.get_rect(center=(window_size[0] // 2, 100))
-        screen.blit(logo_image, logo_rect)
-
-        # Positionnement des boutons en ligne
-        button_y_position = 300
-        play_button_rect = play_button_image.get_rect(center=(window_size[0] // 2 - 150, button_y_position))
-        setting_button_rect = setting_button_image.get_rect(center=(window_size[0] // 2, button_y_position))
-        exit_button_rect = exit_button_image.get_rect(center=(window_size[0] // 2 + 150, button_y_position))
-
-        screen.blit(play_button_image, play_button_rect)
-        screen.blit(setting_button_image, setting_button_rect)
-        screen.blit(exit_button_image, exit_button_rect)
-
-        clicked = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                clicked = True
-
-        mouse_pos = pygame.mouse.get_pos()
-
-        # Actions des boutons
-
-        if play_button_rect.collidepoint(mouse_pos) and clicked:
-            menu = False  # Quitter le menu et lancer la partie
-        if setting_button_rect.collidepoint(mouse_pos) and clicked:
-            show_settings_menu(settings_menu, screen, logo_image, menu_background_image, prev_button_image)
-            # Ouvrir le menu des options
-            pass
-        elif exit_button_rect.collidepoint(mouse_pos) and clicked:
-            pygame.quit()
-            quit()
-
-        pygame.display.update()
+        # Générer une position aléatoire pour chaque lapin
+        pos_x = random.randint(0, WINDOW_SIZE[0] - rabbit_img.get_width())
+        pos_y = random.randint(0, WINDOW_SIZE[1] - rabbit_img.get_height())
+        screen.blit(rabbit_img, (pos_x, pos_y))
 
 
-show_menu()
+def update_simulation(garden):
+    """
+    Met à jour l'état de la simulation.
+    """
+    garden.weekly_update()
+    # Autres mises à jour si nécessaire...
 
-background_image = pygame.image.load('img/garden.png')
-background_image = pygame.transform.scale(background_image, window_size)
 
-rabbit_image = pygame.image.load('img/rabbit.png')
-rabbit_image = pygame.transform.scale(rabbit_image,
-                                      (int(rabbit_image.get_width() * 0.1), int(rabbit_image.get_height() * 0.1)))
+def display_statistics(screen, garden):
+    """
+    Affiche des statistiques sur l'écran.
+    """
+    font = pygame.font.Font(None, 36)
 
-carrot_image = pygame.image.load('img/carrot.png')
-carrot_image = pygame.transform.scale(carrot_image, (20, 20))
+    week_text = font.render(f'Semaine: {garden.current_week}', True, (255, 255, 255))
+    screen.blit(week_text, (10, 200))
 
-margin = 0.07
-margin_x = int(window_size[0] * margin)
-margin_y = int(window_size[1] * margin)
+    # Statistiques sur les lapins
+    rabbit_count = len(garden.rabbits)
+    rabbit_text = font.render(f'Lapins: {rabbit_count}', True, (255, 255, 255))
+    screen.blit(rabbit_text, (10, 10))
 
-# Assuming Garden, Gender, and other classes are defined in other modules
-from garden import Garden
-from animals import Gender
+    # Statistiques sur les carottes
+    carrot_count = garden.carrots.count
+    carrot_text = font.render(f'Carottes: {carrot_count}', True, (255, 255, 255))
+    screen.blit(carrot_text, (10, 50))
 
-garden = Garden(window_size, margin_x, margin_y, has_fox=False)
+    # Statistiques sur les lapins tués
+    rabbit_killed_count = garden.rabbits_killed_count
+    rabbit_killed_text = font.render(f'Lapins tués: {rabbit_killed_count}', True, (255, 255, 255))
+    screen.blit(rabbit_killed_text, (10, 90))
 
-weeks = []
-rabbit_counts = []
-carrot_counts = []
-rabbit_killed_counts = []
-total_months = 0
+    # Statistiques sur les renards
+    fox_count = len(garden.foxes)
+    fox_text = font.render(f'Renards: {fox_count}', True, (255, 255, 255))
+    screen.blit(fox_text, (10, 130))
 
-# Main loop for the simulation over 6 years
+    fox_killed_count = garden.foxes_killed_count
+    fox_killed_text = font.render(f'Renards tués: {fox_killed_count}', True, (255, 255, 255))
+    screen.blit(fox_killed_text, (10, 150))
+
+    # Statistiques sur les chasseurs
+    hunter_count = len(garden.hunters)
+    hunter_text = font.render(f'Chasseurs: {hunter_count}', True, (255, 255, 255))
+    screen.blit(hunter_text, (10, 170))
+
+
+def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
+    """
+    Visualise les données collectées à l'aide de matplotlib.
+    """
+    plt.plot(weeks, rabbit_counts, label='Lapins')
+    plt.plot(weeks, carrot_counts, label='Carottes')
+
+    # plt.plot(weeks, [rabbit_counts[i] - rabbit_killed_counts[i] for i in range(len(rabbit_counts))], label='Lapins vivants')
+    # plt.plot(weeks, rabbit_killed_counts, label='Lapins tués')
+    # plt.plot(weeks, [rabbit_killed_counts[i] / rabbit_counts[i] for i in range(len(rabbit_counts))], label='Taux de mortalité')
+    # plt.plot(weeks, [carrot_counts[i] / rabbit_counts[i] for i in range(len(rabbit_counts))], label='Carottes par lapin')
+    # plt.plot(weeks, [rabbit_counts[i] / carrot_counts[i] for i in range(len(rabbit_counts))], label='Lapins par carotte')
+
+    plt.xlabel('Semaines')
+    plt.ylabel('Nombre')
+    plt.title('Évolution du Jardin')
+    plt.legend()
+    plt.show()
+
+
+# Chargement des images
+images = {name: load_and_scale_image(IMAGE_PATHS[name],
+                                     WINDOW_SIZE if name in ['loading', 'menu_background', 'garden'] else None)
+          for name in IMAGE_PATHS}
+images['rabbit'] = load_and_scale_image(IMAGE_PATHS['rabbit'], (int(images['rabbit'].get_width() * RABBIT_SCALE),
+                                                                int(images['rabbit'].get_height() * RABBIT_SCALE)))
+images['carrot'] = load_and_scale_image(IMAGE_PATHS['carrot'], CARROT_SIZE)
+
+# Affichage de l'écran de chargement
+fade_in_out(images['loading'], images['logo'], screen, FADE_DURATION, STAY_DURATION)
+
+# Affichage du menu
+show_menu(screen, images)
+
+window_config = WindowConfig(WINDOW_SIZE[0], WINDOW_SIZE[1], int(WINDOW_SIZE[0] * MARGIN), int(WINDOW_SIZE[1] * MARGIN))
+config = GardenConfig(window_config, 0, 1, 0)
+
+# Configuration du jeu
+garden = create_garden(config)
+
+# Variables pour la visualisation des données
+weeks, rabbit_counts, carrot_counts = [], [], []
+
+# Boucle principale du jeu
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    screen.blit(background_image, (0, 0))
+    display_simulation(screen, garden, images)
+    update_simulation(garden)
+    display_statistics(screen, garden)
 
-    # Display carrots and rabbits
-    for pos in garden.carrots.positions:
-        screen.blit(carrot_image, pos)
-
-    for rabbit in garden.rabbits:
-        pos_x = random.randint(margin_x, window_size[0] - margin_x - rabbit_image.get_width())
-        pos_y = random.randint(margin_y, window_size[1] - margin_y - rabbit_image.get_height())
-        pos = (pos_x, pos_y)
-        if rabbit.gender == Gender.MALE:
-            rabbit_image_flipped = pygame.transform.flip(rabbit_image, True, False)
-            screen.blit(rabbit_image_flipped, pos)
-        else:
-            screen.blit(rabbit_image, pos)
-
-    rabbit_count = len(garden.rabbits)
-    carrot_count = garden.carrots.count
-    font = pygame.font.Font(None, 36)
-    rabbit_text = font.render(f'Lapins: {rabbit_count}', True, (255, 255, 255))
-    carrot_text = font.render(f'Carottes: {carrot_count}', True, (255, 255, 255))
-
-    rabbit_text_position = (window_size[0] - rabbit_text.get_width() - 10, 10)
-    carrot_text_position = (window_size[0] - carrot_text.get_width() - 10, 10 + rabbit_text.get_height())
-
-    months = total_months + (garden.current_week // 4)  # Assuming 4 weeks per month
-    month_text = font.render(f'Mois: {months}', True, (255, 255, 255))
-    month_text_position = (
-        window_size[0] - month_text.get_width() - 10, 10 + rabbit_text.get_height() + carrot_text.get_height())
-
-    screen.blit(rabbit_text, rabbit_text_position)
-    screen.blit(carrot_text, carrot_text_position)
-    screen.blit(month_text, month_text_position)
-
-    pygame.display.flip()
-
-    garden.weekly_update()
-
-    pygame.time.delay(100)
-
+    # Collecte des données pour la visualisation
     weeks.append(garden.current_week)
     rabbit_counts.append(len(garden.rabbits))
     carrot_counts.append(garden.carrots.count)
 
-    if garden.fox is not None:
-        rabbit_killed_counts.append(garden.fox.killed_rabbits)
+    pygame.display.flip()
+    pygame.time.delay(100)
 
-# Data visualization with Matplotlib
 
-# Create graphic with Matplotlib
-plt.figure(figsize=(10, 6))
-plt.plot(weeks, rabbit_counts, label='Rabbits')
-plt.plot(weeks, carrot_counts, label='Carrots')
-
-# Add count only if fox is enabled
-if rabbit_killed_counts:
-    plt.plot(weeks, rabbit_killed_counts, label='Killed rabbits')
-
-plt.xlabel('Weeks')
-plt.ylabel('Count')
-plt.title('Evolution of the Rabbit and Carrot Garden')
-plt.legend()
-plt.show()
+# Visualisation des données
+plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count)
 
 pygame.quit()
