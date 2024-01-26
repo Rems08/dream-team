@@ -64,7 +64,7 @@ def pick_random_rabbit(rabbits):
 
 
 class Fox:
-    EATING_FREQUENCY_WEEKS = 4
+    EATING_FREQUENCY_WEEKS = 80
 
     def __init__(self, image):
         self.image = image
