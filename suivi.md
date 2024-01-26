@@ -5,6 +5,40 @@ Ce projet consiste à créer une simulation des populations de lapins et de caro
 
 Nous avons utilisé plusieurs fichiers pour ce projet. Le fichier animals.py contient la classe Rabbit la classe Fox et la classe Hunter. Le fichier garden.py contient la classe Carrot et Garden. Le fichier main.py contient le code principal pour exécuter la simulation. Le fichier requirements.txt contient les dépendances du projet. Le fichier README.md contient des informations sur le projet.
 
+# Main.py
+
+##Description
+
+Ce fichier est le code principal, il crée la simulation graphique d'un jardin avec des lapins et des carottes en utilisant la bibliothèque Pygame, et visualise ensuite l'évolution du nombre de lapins et de carottes au fil des semaines à l'aide de la bibliothèque Matplotlib
+
+1. ## Initialisation du jeu et chargement des images :##
+   Pygame est initialisé, et la fenêtre du jeu est créée avec la taille spécifiée.
+   Différentes images, telles que le logo, l'image de chargement, l'arrière-plan du menu, les boutons, le lapin, la carotte, etc., sont chargées à partir des chemins spécifiés.
+
+2. ## Fonction de fondu (fade_in_out) :##
+
+   Il y a une fonction fade_in_out qui gère le fondu d'une image et d'un logo à l'écran. Elle est utilisée pour afficher une transition en fondu entre différentes parties du jeu.
+   
+3. ## Affichage du menu :##
+
+Une fonction show_menu est définie pour afficher le menu du jeu. Elle gère les événements de la souris pour interagir avec les boutons du menu (jouer, paramètres, quitter).
+
+4. ## Initialisation du jardin et de la simulation :##
+
+Des objets représentant le jardin (classe Garden) sont créés avec des lapins et des carottes.
+Une boucle principale est mise en place pour simuler l'évolution du jardin au fil des semaines.
+L'affichage graphique est réalisé avec Pygame, montrant la position des lapins, des carottes, et affichant des informations sur le nombre de lapins, de carottes et le temps écoulé.
+
+5. ## Visualisation des données avec Matplotlib :## 
+
+À la fin de la simulation, les données du nombre de lapins, de carottes et de lapins tués par un renard (s'il est présent) sont visualisées à l'aide de la bibliothèque Matplotlib.
+
+6. ## Fin de la simulation :##
+
+Une fois la simulation terminée ou si l'utilisateur ferme la fenêtre du jeu, le programme se termine proprement en appelant pygame.quit().
+
+# Les classes :
+
 # Animals.py
 
 ## Gender 
@@ -32,7 +66,6 @@ Pour représenter des carottes individuelles. Cette classe peut être simple car
 ## La classe Garden
 
 Pour représenter l'environnement du jardin, contenant des lapins et des carottes, et des méthodes pour simuler les activités hebdomadaires (par exemple, faire pousser des carottes, nourrir les lapins).
-
 
 # Logique de simulation :
 
