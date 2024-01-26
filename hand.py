@@ -227,7 +227,7 @@ fade_in_out(images['loading'], images['logo'], screen, FADE_DURATION, STAY_DURAT
 show_menu(screen, images)
 
 window_config = WindowConfig(WINDOW_SIZE[0], WINDOW_SIZE[1], int(WINDOW_SIZE[0] * MARGIN), int(WINDOW_SIZE[1] * MARGIN))
-config = GardenConfig(window_config, 200, 1, 1)
+config = GardenConfig(window_config, 0, 1, 0)
 
 # Configuration du jeu
 garden = create_garden(config)
