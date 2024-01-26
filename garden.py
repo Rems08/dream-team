@@ -44,7 +44,7 @@ def create_garden(config: GardenConfig):
     carrots = Carrot(config.carrot_count)
     rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
     foxes = [Fox('img/fox.png') for _ in range(config.fox_count)]
-    hunters = [Fox('img/hunter.png') for _ in range(config.hunter_count)]
+    hunters = [Hunter('img/hunter.png') for _ in range(config.hunter_count)]
 
     garden = Garden(config.window_config, carrots, rabbits, foxes, hunters)
     return garden
@@ -65,7 +65,9 @@ class Garden:
         self.current_week = 9
         self.last_planting_year = 0
         self.carrots.harvest(200, window_config)
+
         self.rabbits_killed_count = 0
+        self.foxes_killed_count = 0
 
     def has_carrots(self):
         """ Checks if there are any carrots in the garden. """
@@ -119,23 +121,24 @@ class Garden:
         print("Hunt is starting...")
 
         print("Foxes are hunting...")
-        current_rabbit_count = len(self.rabbits)
+        before_hunt_rabbit_count = len(self.rabbits)
 
         for fox in self.foxes:
             fox.hunt(self.current_week, self.rabbits)
 
         after_hunt_rabbit_count = len(self.rabbits)
-        self.rabbits_killed_count += current_rabbit_count - after_hunt_rabbit_count
-        print("Foxes killed {} rabbits".format(current_rabbit_count - after_hunt_rabbit_count))
+        self.rabbits_killed_count += before_hunt_rabbit_count - after_hunt_rabbit_count
+        print("Foxes killed {} rabbits".format(before_hunt_rabbit_count - after_hunt_rabbit_count))
 
         print("Hunters are hunting...")
-        current_fox_count = len(self.foxes)
+        before_hunt_fox_count = len(self.foxes)
 
         for hunter in self.hunters:
             hunter.hunt(self.current_week, self.__find_remaining_foxes())
 
         after_hunt_fox_count = len(self.foxes)
-        print("Hunters killed {} foxes".format(current_fox_count - after_hunt_fox_count))
+        self.foxes_killed_count += before_hunt_fox_count - after_hunt_fox_count
+        print("Hunters killed {} foxes".format(before_hunt_fox_count - after_hunt_fox_count))
 
     def __find_remaining_foxes(self):
-        return [fox for fox in self.foxes if not fox.is_alive]
+        return [fox for fox in self.foxes if fox.is_alive]

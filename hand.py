@@ -177,6 +177,20 @@ def display_statistics(screen, garden):
     rabbit_killed_text = font.render(f'Lapins tués: {rabbit_killed_count}', True, (255, 255, 255))
     screen.blit(rabbit_killed_text, (10, 90))
 
+    # Statistiques sur les renards
+    fox_count = len(garden.foxes)
+    fox_text = font.render(f'Renards: {fox_count}', True, (255, 255, 255))
+    screen.blit(fox_text, (10, 130))
+
+    fox_killed_count = garden.foxes_killed_count
+    fox_killed_text = font.render(f'Renards tués: {fox_killed_count}', True, (255, 255, 255))
+    screen.blit(fox_killed_text, (10, 150))
+
+    # Statistiques sur les chasseurs
+    hunter_count = len(garden.hunters)
+    hunter_text = font.render(f'Chasseurs: {hunter_count}', True, (255, 255, 255))
+    screen.blit(hunter_text, (10, 170))
+
 
 def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
     """
@@ -213,7 +227,7 @@ fade_in_out(images['loading'], images['logo'], screen, FADE_DURATION, STAY_DURAT
 show_menu(screen, images)
 
 window_config = WindowConfig(WINDOW_SIZE[0], WINDOW_SIZE[1], int(WINDOW_SIZE[0] * MARGIN), int(WINDOW_SIZE[1] * MARGIN))
-config = GardenConfig(window_config, 200, 1, 0)
+config = GardenConfig(window_config, 200, 1, 1)
 
 # Configuration du jeu
 garden = create_garden(config)
