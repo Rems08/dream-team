@@ -24,6 +24,10 @@ Fêtes de Paques : Nous avions l'idée amusante de transformer tous les lapins e
 
 ### Elsa - Temps investi : 4h
 - Redaction du fil de l'eau
+- Création du README.md
+- Aide à l'installation des modules & packages nécessaires
+- Redaction du suivi.md
+- Organisatin des tâches pour chaque personne
 
 ### Hugo - Temps investi : 5h
 - Refactorisation du code pour le rendre plus lisible
