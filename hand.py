@@ -172,6 +172,11 @@ def display_statistics(screen, garden):
     carrot_text = font.render(f'Carottes: {carrot_count}', True, (255, 255, 255))
     screen.blit(carrot_text, (10, 50))
 
+    # Statistiques sur les lapins tués
+    rabbit_killed_count = garden.rabbits_killed_count
+    rabbit_killed_text = font.render(f'Lapins tués: {rabbit_killed_count}', True, (255, 255, 255))
+    screen.blit(rabbit_killed_text, (10, 90))
+
 
 def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
     """
