@@ -235,7 +235,8 @@ while running:
     pygame.display.flip()
     pygame.time.delay(100)
 
-    # Visualisation des données
-    plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count)
+
+# Visualisation des données
+plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count)
 
 pygame.quit()
