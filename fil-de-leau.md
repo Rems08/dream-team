@@ -1,9 +1,13 @@
-Idées rejetées
+# Idées rejetées
 
 Nous avons eu plusieurs idées pour ce projet.
 
-Nous avons eu l'idée d'instaurer du cannibalisme entre les lapins afin de réduire la population. Mais nous avons choisi d'utiliser un renard et un chasseur.
+1. **Cannibalisme entre les lapins :**
+   Nous avons envisagé l'idée d'instaurer du cannibalisme entre les lapins afin de réduire la population. Cependant, nous avons finalement opté pour l'introduction d'un renard et d'un chasseur pour réguler la population.
 
-on a voulu également mettre un bouton "accélérer le temps" mais nous n'avons pas eu le temps.
+2. **Bouton "Accélérer le temps" :**
+   Nous avons souhaité inclure un bouton permettant d'accélérer le temps, mais malheureusement, nous n'avons pas eu le temps nécessaire pour le développer.
 
-On a voulu mettre au point une maladie des carottes pouvait également transformer les lapins en "lapins zombie" mais nous avons aussi retiré cette idée de notre roadmap
+3. **Maladie des carottes et lapins zombie :**
+   Une autre idée était de créer une maladie des carottes qui aurait pu transformer les lapins en "lapins zombie". Cependant, nous avons décidé de retirer cette idée de notre roadmap.
+
