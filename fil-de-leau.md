@@ -23,6 +23,7 @@ Fêtes de Paques : Nous avions l'idée amusante de transformer tous les lapins e
 - Création du fichier requirements.txt
 
 ### Elsa - Temps investi : 4h
+- Redaction du fil de l'eau
 
 ### Hugo - Temps investi : 5h
 - Refactorisation du code pour le rendre plus lisible
