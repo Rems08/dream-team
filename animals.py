@@ -64,7 +64,7 @@ def pick_random_rabbit(rabbits):
 
 
 class Fox:
-    EATING_FREQUENCY_WEEKS = 80
+    EATING_FREQUENCY_WEEKS = 20
 
     def __init__(self, image):
         self.image = image
@@ -73,6 +73,9 @@ class Fox:
         self.killed_rabbits = 0  # Number of rabbits killed by the fox
 
     def hunt(self, current_week, rabbits):
+        if not self.is_alive:
+            return
+        
         if current_week <= 80:
             return
 
