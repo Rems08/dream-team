@@ -7,7 +7,7 @@ Nous avons utilisé plusieurs fichiers pour ce projet. Le fichier animals.py con
 
 # Main.py
 
-##Description
+## Description
 
 Ce fichier est le code principal, il crée la simulation graphique d'un jardin avec des lapins et des carottes en utilisant la bibliothèque Pygame, et visualise ensuite l'évolution du nombre de lapins et de carottes au fil des semaines à l'aide de la bibliothèque Matplotlib
 
