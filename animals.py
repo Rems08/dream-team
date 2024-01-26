@@ -99,20 +99,25 @@ class Hunter:
     def __init__(self, image):
         self.image = image
         self.ammunition = 5  # Munitions initiales du chasseur
-        self.hunting_interval = 12  # Fréquence de chasse (tous les 3 mois)
+        self.hunting_interval = 4  # Fréquence de chasse (tous les 3 mois)
         self.last_hunt_week = 0  # Semaine de la dernière chasse
 
     def hunt(self, current_week, foxes):
         if not self.__can_hunt(current_week) or not foxes:
+            print("Le chasseur ne peut pas chasser")
             return
 
         fox = pick_random_fox(foxes)  # Choisir un renard au hasard
         foxes.remove(fox)
         self.ammunition -= 1  # Utiliser une munition
         self.last_hunt_week = current_week  # Mettre à jour la dernière semaine de chasse
+        print("Le chasseur a tué un renard")
 
     def __can_hunt(self, current_week):
         if self.ammunition == 0:
+            print("Le chasseur n'a plus de munitions")
             return False
 
-        return current_week - self.last_hunt_week >= self.hunting_interval
+        can_hunt = current_week - self.last_hunt_week >= self.hunting_interval
+        print("Le chasseur peut chasser: {}".format(can_hunt))
+        return can_hunt

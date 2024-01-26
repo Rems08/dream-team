@@ -133,8 +133,13 @@ class Garden:
         print("Hunters are hunting...")
         before_hunt_fox_count = len(self.foxes)
 
+        remaining_foxes = self.__find_remaining_foxes()
+
         for hunter in self.hunters:
-            hunter.hunt(self.current_week, self.__find_remaining_foxes())
+            print("Hunter is hunting...")
+            hunter.hunt(self.current_week, remaining_foxes)
+
+        self.foxes = remaining_foxes
 
         after_hunt_fox_count = len(self.foxes)
         self.foxes_killed_count += before_hunt_fox_count - after_hunt_fox_count
