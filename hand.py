@@ -162,6 +162,9 @@ def display_statistics(screen, garden):
     """
     font = pygame.font.Font(None, 36)
 
+    week_text = font.render(f'Semaine: {garden.current_week}', True, (255, 255, 255))
+    screen.blit(week_text, (10, 200))
+
     # Statistiques sur les lapins
     rabbit_count = len(garden.rabbits)
     rabbit_text = font.render(f'Lapins: {rabbit_count}', True, (255, 255, 255))

@@ -124,7 +124,7 @@ class Garden:
         before_hunt_rabbit_count = len(self.rabbits)
 
         for fox in self.foxes:
-            fox.hunt(self.current_week, self.rabbits)
+            fox.hunt(self.rabbits)
 
         after_hunt_rabbit_count = len(self.rabbits)
         self.rabbits_killed_count += before_hunt_rabbit_count - after_hunt_rabbit_count
