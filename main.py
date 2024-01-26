@@ -4,20 +4,58 @@ import time
 import matplotlib.pyplot as plt
 import pygame
 
-from animals import Gender
-from garden import Garden
-from settings_menu import SettingsMenu
-from settings_menu import show_settings_menu
+from settings_menu import SettingsMenu, show_settings_menu
 
-# Pygame initialization and other configurations
+# Constants and Global Variables
+WINDOW_SIZE = (1024, 576)
+IMAGE_PATHS = {
+    "logo": 'img/logo.png',
+    "loading": 'img/loading.png',
+    "menu_background": 'img/menuBackground.png',
+    "play_button": 'img/play.png',
+    "setting_button": 'img/setting.png',
+    "exit_button": 'img/exit.png',
+    "prev_button": 'img/prev.png',
+    "garden": 'img/garden.png',
+    "rabbit": 'img/rabbit.png',
+    "carrot": 'img/carrot.png'
+}
+FADE_DURATION = 1.0
+STAY_DURATION = 1.0
+RABBIT_SCALE = 0.1
+CARROT_SIZE = (20, 20)
+MARGIN = 0.07
+
+
+# Helper Functions
+def load_image(path, size=None):
+    """Loads and optionally scales an image."""
+    image = pygame.image.load(path)
+    return pygame.transform.scale(image, size) if size else image
+
+
+# Main Game Initialization
 pygame.init()
-
-window_size = (1024, 576)
-screen = pygame.display.set_mode(window_size)
+screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Rabbit Garden")
 
-logo_image = pygame.image.load('img/logo.png')
-logo_image = pygame.transform.scale(logo_image, (300, 300))
+# Load Images
+logo_image = load_image(LOGO_PATH, (300, 300))
+loading_image = load_image(LOADING_PATH, WINDOW_SIZE)
+menu_background_image = load_image(MENU_BACKGROUND_PATH, WINDOW_SIZE)
+play_button_image = load_image(PLAY_BUTTON_PATH)
+setting_button_image = load_image(SETTING_BUTTON_PATH)
+exit_button_image = load_image(EXIT_BUTTON_PATH)
+prev_button_image = load_image(PREV_BUTTON_PATH)
+background_image = load_image(GARDEN_PATH, WINDOW_SIZE)
+rabbit_image = load_image(RABBIT_PATH, (int(RABBIT_PATH.get_width() * 0.1), int(RABBIT_PATH.get_height() * 0.1)))
+carrot_image = load_image(CARROT_PATH, (20, 20))
+
+
+def load_image(path, size=None):
+    """Chargement et redimensionnement optionnel d'une image."""
+    image = pygame.image.load(path)
+    return pygame.transform.scale(image, size) if size else image
 
 
 def fade_in_out(image, logo, screen, duration, stay_time):
@@ -47,6 +85,15 @@ def fade_in_out(image, logo, screen, duration, stay_time):
         screen.blit(image, image_rect)
         screen.blit(logo, logo_rect)
         pygame.display.update()
+
+
+# Main Execution Logic
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
 
 
 # Loading and displaying the loading screen
@@ -239,7 +286,7 @@ while running:
     weeks.append(garden.current_week)
     rabbit_counts.append(len(garden.rabbits))
     carrot_counts.append(garden.carrots.count)
-    
+
     if garden.fox is not None:
         rabbit_killed_counts.append(garden.fox.killed_rabbits)
 

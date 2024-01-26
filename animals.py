@@ -68,6 +68,7 @@ class Fox:
 
     def __init__(self, image):
         self.image = image
+        self.is_alive = True
         self.hunger = 0  # Fox hunger level, increases over time
         self.killed_rabbits = 0  # Number of rabbits killed by the fox
 
@@ -81,6 +82,9 @@ class Fox:
             rabbits.remove(rabbit)
             self.killed_rabbits += 1
             self.hunger = 0
+
+    def die(self):
+        self.is_alive = False
 
     def __should_eat_this_weekend(self, current_week):
         return current_week % self.EATING_FREQUENCY_WEEKS == 0
@@ -108,4 +112,7 @@ class Hunter:
         self.last_hunt_week = current_week  # Mettre à jour la dernière semaine de chasse
 
     def __can_hunt(self, current_week):
-        return current_week - self.last_hunt_week >= self.hunting_interval and self.ammunition > 0
+        if self.ammunition == 0:
+            return False
+
+        return current_week - self.last_hunt_week >= self.hunting_interval

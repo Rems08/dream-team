@@ -2,6 +2,14 @@ import random
 from animals import Rabbit, Gender, Fox, Hunter
 
 
+class WindowConfig:
+    def __init__(self, width, height, margin_x, margin_y):
+        self.width = width
+        self.height = height
+        self.margin_x = margin_x
+        self.margin_y = margin_y
+
+
 # Carrot Class
 class Carrot:
     def __init__(self, count):
@@ -15,30 +23,49 @@ class Carrot:
             return self.positions.pop()  # Retire et renvoie la position de la carotte consommée
         return None
 
-    def harvest(self, additional_count, window_size, margin_x, margin_y):
+    def harvest(self, additional_count, config: WindowConfig):
         """ Adds carrots to the garden and generates their positions. """
         self.count += additional_count
         for _ in range(additional_count):
-            pos_x = random.randint(margin_x, window_size[0] - margin_x)
-            pos_y = random.randint(margin_y, window_size[1] - margin_y)
+            pos_x = random.randint(config.margin_x, config.width - config.margin_x)
+            pos_y = random.randint(config.margin_y, config.height - config.margin_y)
             self.positions.append((pos_x, pos_y))
+
+
+class GardenConfig:
+    def __init__(self, window_config: WindowConfig, carrot_count: int, fox_count: int, hunter_count: int):
+        self.window_config = window_config
+        self.carrot_count = carrot_count
+        self.fox_count = fox_count
+        self.hunter_count = hunter_count
+
+
+def create_garden(config: GardenConfig):
+    carrots = Carrot(config.carrot_count)
+    rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
+    foxes = [Fox('img/fox.png') for _ in range(config.fox_count)]
+    hunters = [Fox('img/hunter.png') for _ in range(config.hunter_count)]
+
+    garden = Garden(config.window_config, carrots, rabbits, foxes, hunters)
+    return garden
 
 
 # Garden Class
 class Garden:
     WEEKS_PER_YEAR = 52
 
-    def __init__(self, window_size, margin_x, margin_y, has_hunter=False, has_fox=False):
-        self.window_size = window_size
-        self.margin_x = margin_x
-        self.margin_y = margin_y
-        self.rabbits = [Rabbit(Gender.MALE), Rabbit(Gender.FEMALE)]
-        self.carrots = Carrot(0)
+    def __init__(self, window_config: WindowConfig, carrots: Carrot, rabbits, foxes, hunters):
+        self.window_config = window_config
+
+        self.carrots = carrots
+        self.rabbits = rabbits
+        self.foxes = foxes
+        self.hunters = hunters
+
         self.current_week = 9
         self.last_planting_year = 0
-        self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
-        self.hunter = Hunter('img/hunter.png') if has_hunter else None
-        self.fox = Fox('img/fox.png') if has_fox else None
+        self.carrots.harvest(200, window_config)
+        self.rabbits_killed_count = 0
 
     def has_carrots(self):
         """ Checks if there are any carrots in the garden. """
@@ -56,7 +83,7 @@ class Garden:
 
         # Planting and harvesting logic
         if week_of_year == 9 and current_year != self.last_planting_year:
-            self.carrots.harvest(200, self.window_size, self.margin_x, self.margin_y)
+            self.carrots.harvest(200, self.window_config)
             self.last_planting_year = current_year
 
         rabbit_population = len(self.rabbits)
@@ -89,10 +116,26 @@ class Garden:
                     father.last_reproduction_week = self.current_week // self.WEEKS_PER_YEAR
 
     def handle_hunters(self):
-        print(f"FOX KILLED BEFORE: {self.fox.killed_rabbits}")
-        if self.fox:
-            self.fox.hunt(self.current_week, self.rabbits)  # Le renard chasse les lapins
-            print(f"FOX KILLED AFTER: {self.fox.killed_rabbits}")
+        print("Hunt is starting...")
 
-        if self.hunter and self.current_week % 12 == 0:  # Par exemple, le chasseur chasse tous les 3 mois
-            self.hunter.hunt(self.current_week, self.foxes)
+        print("Foxes are hunting...")
+        current_rabbit_count = len(self.rabbits)
+
+        for fox in self.foxes:
+            fox.hunt(self.current_week, self.rabbits)
+
+        after_hunt_rabbit_count = len(self.rabbits)
+        self.rabbits_killed_count += current_rabbit_count - after_hunt_rabbit_count
+        print("Foxes killed {} rabbits".format(current_rabbit_count - after_hunt_rabbit_count))
+
+        print("Hunters are hunting...")
+        current_fox_count = len(self.foxes)
+
+        for hunter in self.hunters:
+            hunter.hunt(self.current_week, self.__find_remaining_foxes())
+
+        after_hunt_fox_count = len(self.foxes)
+        print("Hunters killed {} foxes".format(current_fox_count - after_hunt_fox_count))
+
+    def __find_remaining_foxes(self):
+        return [fox for fox in self.foxes if not fox.is_alive]

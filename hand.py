@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pygame
 
 from animals import Gender
-from garden import Garden
+from garden import GardenConfig, WindowConfig, create_garden
 from settings_menu import SettingsMenu, show_settings_menu
 
 # Constantes et configurations
@@ -122,7 +122,8 @@ def show_menu(screen, images):
                 if play_button_rect.collidepoint(mouse_pos):
                     menu = False  # Quitter le menu et lancer la partie
                 elif setting_button_rect.collidepoint(mouse_pos):
-                    show_settings_menu(settings_menu, screen, images['logo'], images['menu_background'], images['prev_button'])
+                    show_settings_menu(settings_menu, screen, images['logo'], images['menu_background'],
+                                       images['prev_button'])
                 elif exit_button_rect.collidepoint(mouse_pos):
                     pygame.quit()
                     quit()
@@ -147,7 +148,6 @@ def display_simulation(screen, garden, images):
         screen.blit(rabbit_img, (pos_x, pos_y))
 
 
-
 def update_simulation(garden):
     """
     Met à jour l'état de la simulation.
@@ -161,9 +161,16 @@ def display_statistics(screen, garden):
     Affiche des statistiques sur l'écran.
     """
     font = pygame.font.Font(None, 36)
-    rabbit_text = font.render(f'Lapins: {len(garden.rabbits)}', True, (255, 255, 255))
-    carrot_text = font.render(f'Carottes: {garden.carrots.count}', True, (255, 255, 255))
-    # ... Positionner et afficher le texte sur l'écran ...
+
+    # Statistiques sur les lapins
+    rabbit_count = len(garden.rabbits)
+    rabbit_text = font.render(f'Lapins: {rabbit_count}', True, (255, 255, 255))
+    screen.blit(rabbit_text, (10, 10))
+
+    # Statistiques sur les carottes
+    carrot_count = garden.carrots.count
+    carrot_text = font.render(f'Carottes: {carrot_count}', True, (255, 255, 255))
+    screen.blit(carrot_text, (10, 50))
 
 
 def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
@@ -172,8 +179,13 @@ def plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts):
     """
     plt.plot(weeks, rabbit_counts, label='Lapins')
     plt.plot(weeks, carrot_counts, label='Carottes')
-    if rabbit_killed_counts:
-        plt.plot(weeks, rabbit_killed_counts, label='Lapins tués')
+
+    # plt.plot(weeks, [rabbit_counts[i] - rabbit_killed_counts[i] for i in range(len(rabbit_counts))], label='Lapins vivants')
+    # plt.plot(weeks, rabbit_killed_counts, label='Lapins tués')
+    # plt.plot(weeks, [rabbit_killed_counts[i] / rabbit_counts[i] for i in range(len(rabbit_counts))], label='Taux de mortalité')
+    # plt.plot(weeks, [carrot_counts[i] / rabbit_counts[i] for i in range(len(rabbit_counts))], label='Carottes par lapin')
+    # plt.plot(weeks, [rabbit_counts[i] / carrot_counts[i] for i in range(len(rabbit_counts))], label='Lapins par carotte')
+
     plt.xlabel('Semaines')
     plt.ylabel('Nombre')
     plt.title('Évolution du Jardin')
@@ -195,11 +207,14 @@ fade_in_out(images['loading'], images['logo'], screen, FADE_DURATION, STAY_DURAT
 # Affichage du menu
 show_menu(screen, images)
 
+window_config = WindowConfig(WINDOW_SIZE[0], WINDOW_SIZE[1], int(WINDOW_SIZE[0] * MARGIN), int(WINDOW_SIZE[1] * MARGIN))
+config = GardenConfig(window_config, 200, 1, 0)
+
 # Configuration du jeu
-garden = Garden(WINDOW_SIZE, int(WINDOW_SIZE[0] * MARGIN), int(WINDOW_SIZE[1] * MARGIN), has_fox=False)
+garden = create_garden(config)
 
 # Variables pour la visualisation des données
-weeks, rabbit_counts, carrot_counts, rabbit_killed_counts = [], [], [], []
+weeks, rabbit_counts, carrot_counts = [], [], []
 
 # Boucle principale du jeu
 running = True
@@ -216,13 +231,11 @@ while running:
     weeks.append(garden.current_week)
     rabbit_counts.append(len(garden.rabbits))
     carrot_counts.append(garden.carrots.count)
-    if garden.fox is not None:
-        rabbit_killed_counts.append(garden.fox.killed_rabbits)
 
     pygame.display.flip()
     pygame.time.delay(100)
 
-# Visualisation des données
-plot_data(weeks, rabbit_counts, carrot_counts, rabbit_killed_counts)
+    # Visualisation des données
+    plot_data(weeks, rabbit_counts, carrot_counts, garden.rabbits_killed_count)
 
 pygame.quit()
